@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ТехноСфера: Ультимативний Гід 2026</title>
+    <style>
+        /* ІМПОРТ СУЧАСНИХ ШРИФТІВ */
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+        /* ОСНОВНІ ПАРАМЕТРИ ДИЗАЙНУ */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1d4ed8;
+            --accent: #10b981;
+            --bg: #020617;
+            --card-bg: #0f172a;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #1e293b;
+            --glass: rgba(15, 23, 42, 0.8);
+            --gradient: linear-gradient(135deg, #60a5fa 0%, #a855f7 100%);
+        }
+
+        /* ЗАГАЛЬНІ НАЛАШТУВАННЯ */
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* КАСТОМНИЙ СКРОЛЛБАР */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* --- ГОЛОВНЕ МЕНЮ (SPA) --- */
+        #main-wrapper {
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #main-menu {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+        }
+
+        .hero-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .hero-title {
+            font-size: clamp(2.2rem, 8vw, 4.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin: 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -3px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin: 20px 0 50px;
+            text-align: center;
+            max-width: 550px;
+        }
+
+        /* СІТКА ВИБОРУ ТЕМ */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px -12px rgba(59, 130, 246, 0.2);
+        }
+
+        .menu-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.3));
+        }
+
+        .menu-card h3 {
+            font-size: 1.25rem;
+            margin: 0 0 8px 0;
+            font-weight: 700;
+        }
+
+        .menu-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* --- КОНТЕНТНІ СЕКЦІЇ --- */
+        .content-section {
+            display: none;
+            padding: 100px 20px 60px;
+            max-width: 950px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .content-section.active {
+            display: block;
+            animation: sectionAppear 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        @keyframes sectionAppear {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* КНОПКА НАЗАД */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            color: var(--text);
+            border: 1px solid var(--border);
+            padding: 12px 24px;
+            border-radius: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 2000;
+            transition: 0.3s;
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        /* ОФОРМЛЕННЯ СТАТЕЙ */
+        .article-header {
+            margin-bottom: 50px;
+        }
+
+        .reading-time {
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .article-header h2 {
+            font-size: clamp(2.2rem, 6vw, 3.8rem);
+            margin: 0 0 15px 0;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            border-radius: 40px;
+            margin-bottom: 60px;
+            border: 1px solid var(--border);
+            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.6);
+        }
+
+        .chapter { margin-bottom: 90px; }
+        
+        .chapter h3 {
+            font-size: 2rem;
+            color: var(--text);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chapter h3::before {
+            content: "";
+            width: 25px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .chapter p {
+            font-size: 1.15rem;
+            margin-bottom: 20px;
+            color: #cbd5e1;
+            text-align: justify;
+        }
+
+        /* АКЦЕНТИ ТА ТЕХ-БЛОКИ */
+        .pro-tip {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.08), transparent);
+            border-left: 4px solid var(--primary);
+            padding: 30px;
+            border-radius: 0 20px 20px 0;
+            margin: 40px 0;
+        }
+
+        .pro-tip h4 {
+            margin: 0 0 12px 0;
+            color: var(--primary);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 35px 0;
+        }
+
+        .tech-item {
+            background: var(--card-bg);
+            padding: 22px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .tech-item b { color: var(--primary); display: block; margin-bottom: 5px; }
+
+        footer {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        b { color: var(--text); font-weight: 700; }
+
+        /* АДАПТИВНІСТЬ */
+        @media (max-width: 768px) {
+            .tech-grid { grid-template-columns: 1fr; }
+            .back-btn { top: 20px; left: 20px; }
+            .hero-img { height: 280px; }
+            .hero-title { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="btn-back" class="back-btn" onclick="hideContent()">← НАЗАД ДО ВИБОРУ</button>
+
+    <div id="main-wrapper">
+        <div id="main-menu">
+            <span class="hero-badge">ТехноЕнциклопедія v2026</span>
+            <h1 class="hero-title">Майбутнє вже<br>настало.</h1>
+            <p class="hero-subtitle">Оберіть сферу, щоб зануритися у світ високих технологій, складних систем та інтелектуального коду.</p>
+            
+            <div class="menu-grid">
+                <div class="menu-card" onclick="showContent('ai-content')">
+                    <span class="icon">🧠</span>
+                    <h3>Штучний Інтелект</h3>
+                    <p>Від базових нейронів до архітектури Transformer, Дифузійних моделей та концепції AGI.</p>
+                </div>
+                <div class="menu-card" onclick="showContent('hw-content')">
+                    <span class="icon">⚡</span>
+                    <h3>Напівпровідники</h3>
+                    <p>Архітектура CPU/GPU, фізика EUV, квантові ефекти та 3D-компонування чіплетів.</p>
+                </div>
+                <div class="menu-card" onclick="showContent('pc-content')">
+                    <span class="icon">🛠️</span>
+                    <h3>Залізо та ПК</h3>
+                    <p>Гід зі збірки: термодинаміка, топологія RAM, кастомні контури СРО та PCIe архітектура.</p>
+                </div>
+                <div class="menu-card" onclick="showContent('dev-content')">
+                    <span class="icon">🐍</span>
+                    <h3>Розробка ПЗ</h3>
+                    <p>Python, High-Load, мікросервіси, Docker, Kubernetes та архітектура баз даних.</p>
+                </div>
+            </div>
+        </div>
+
+        <section id="ai-content" class="content-section">
+            <div class="article-header">
+                <span class="reading-time">Час читання: 120 хвилин</span>
+                <h2>Штучний Інтелект: Повна архітектура розуму</h2>
+            </div>
+            
+            <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1400" class="hero-img" alt="AI Deep Dive">
+
+            <div class="chapter">
+                <h3>1. Математичний фундамент та Нейрони</h3>
+                <p>Штучний інтелект (ШІ) базується на лінійній алгебрі. Кожен штучний нейрон — це перцептрон, який приймає вхідні дані (вектори), множить їх на ваги (weights), додає зміщення (bias) і пропускає результат через функцію активації (ReLU, Sigmoid), щоб додати нелінійність. Процес навчання полягає у мінімізації функції втрат (Loss Function) через алгоритм Зворотного поширення помилки (Backpropagation).</p>
+            </div>
+            <div class="chapter">
+                <h3>2. Згорткові мережі (CNN) та Комп'ютерний Зір</h3>
+                <p>Для обробки зображень використовуються Згорткові нейронні мережі (CNN). Вони використовують ядра згорток, які ковзають по зображенню, витягуючи характеристики (features): від ліній до складних об'єктів. Архітектури як ResNet використовують "skip connections" — обхідні шляхи для даних, що дозволило створювати мережі з сотнями шарів без проблеми затухаючого градієнта.</p>
+            </div>
+            <div class="chapter">
+                <h3>3. Революція Трансформерів (LLM)</h3>
+                <p>У 2017 році стаття "Attention Is All You Need" представила архітектуру Transformer, яка відмовилася від рекурентності на користь механізму Самоуваги (Self-Attention). Це дозволяє моделі одночасно дивитися на всі токени у вікні контексту і математично визначати зв'язки між словами. Саме Трансформери лежать в основі Великих Мовних Моделей (LLM), таких як GPT-4.</p>
+            </div>
+            <div class="chapter">
+                <h3>4. Генеративні моделі: Дифузія та GAN</h3>
+                <p>Створення зображень сьогодні працює завдяки Дифузійним моделям. Процес навчання полягає у додаванні гаусівського шуму до зображення. Нейромережа вчиться робити зворотний процес (Denoising) — бере чистий шум і, керуючись текстовою підказкою, "віднімає" його, щоб виявити зображення. Вони витіснили GAN (Генеративно-змагальні мережі) завдяки стабільності.</p>
+            </div>
+            <div class="chapter">
+                <h3>5. Навчання з підкріпленням (RLHF)</h3>
+                <p>RLHF (Reinforcement Learning from Human Feedback) — це те, що зробило ChatGPT "людяним". Спочатку модель вчиться на сирому тексті, а потім люди (асесори) оцінюють її відповіді. На основі цих оцінок тренується "Модель нагород" (Reward Model), яка автоматично штрафує ШІ за токсичність або заохочує за корисність за допомогою алгоритму PPO (Proximal Policy Optimization).</p>
+            </div>
+            <div class="chapter">
+                <h3>6. RAG: Доповнена генерація</h3>
+                <p>Моделі мають проблему галюцинацій (видумування фактів). Щоб вирішити це, використовується RAG (Retrieval-Augmented Generation). Замість того, щоб покладатися лише на свою пам'ять, перед генерацією відповіді ШІ спочатку шукає інформацію у векторних базах даних (наприклад, Pinecone або Milvus), а потім на її основі формує точну відповідь.</p>
+            </div>
+            <div class="chapter">
+                <h3>7. Мультимодальність</h3>
+                <p>Сучасні ШІ вийшли за межі тексту. Мультимодальні моделі (як Gemini або GPT-4V) можуть одночасно "розуміти" текст, аудіо, відео та код. Це досягається завдяки об'єднанню різних ембеддингових просторів, де зображення кота і слово "кіт" мають однакові координати у багатовимірному математичному просторі моделі.</p>
+            </div>
+            <div class="chapter">
+                <h3>8. NPU та Edge AI</h3>
+                <p>Запуск величезних моделей на серверах дорогий. Тому фокус зміщується на Edge AI (ШІ на периферії) — виконання нейромереж прямо на смартфонах та ПК без інтернету. Для цього процесори тепер мають NPU (Neural Processing Unit) — спеціалізовані блоки, оптимізовані виключно для матричних множень INT8/INT4 (квантизованих моделей).</p>
+            </div>
+            <div class="chapter">
+                <h3>9. Автономні ШІ-Агенти</h3>
+                <p>Еволюція від чат-ботів до агентів. Агенти не просто генерують текст, вони вміють користуватися інструментами (Tools) через API: здійснювати пошук у веб, запускати код у пісочниці Python, надсилати імейли або купувати акції. Вони використовують техніку "Ланцюжок думок" (Chain-of-Thought) для розбиття великої задачі на дрібні кроки.</p>
+            </div>
+            <div class="chapter">
+                <h3>10. На шляху до AGI та Alignment</h3>
+                <p>Ми знаходимося в ері Вузького ШІ, але розробники наближаються до AGI (Загального ШІ). Найбільшою проблемою є Alignment Problem (Проблема узгодження) — як гарантувати, що цілі надрозуму збігатимуться з людськими цінностями. Механічна інтерпретованість (Mechanical Interpretability) намагається зрозуміти, як ШІ приймає рішення на рівні окремих нейронів.</p>
+            </div>
+        </section>
+
+        <section id="hw-content" class="content-section">
+            <div class="article-header">
+                <span class="reading-time">Час читання: 110 хвилин</span>
+                <h2>Напівпровідники: Фізика на межі квантів</h2>
+            </div>
+            
+            <img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=1400" class="hero-img" alt="Hardware">
+
+            <div class="chapter">
+                <h3>1. Кремній та Doping</h3>
+                <p>Чистий кремній є діелектриком. Але завдяки процесу легування (Doping) він стає напівпровідником: додавання фосфору створює N-тип (надлишок електронів), а бору — P-тип (нестача електронів, "дірки"). Контролюючи напругу на затворі транзистора, ми можемо дозволяти або забороняти струму протікати між стоком та витоком.</p>
+            </div>
+            <div class="chapter">
+                <h3>2. EUV Літографія</h3>
+                <p>Сучасні транзистори "друкують" за допомогою Екстремальної ультрафіолетової літографії (EUV). У машинах ASML лазер стріляє по краплям олова, створюючи плазму, яка випромінює світло з довжиною хвилі 13.5 нм. Це світло відбивається від системи ідеальних дзеркал і проектує креслення мікросхеми на кремнієву пластину.</p>
+            </div>
+            <div class="chapter">
+                <h3>3. Еволюція: FinFET до GAAFET</h3>
+                <p>Зі зменшенням розмірів класичні плоскі транзистори почали "протікати" через квантове туннелювання. Індустрія перейшла на FinFET (плавникові), де затвор охоплює канал з трьох сторін. Сьогодні стандартом стає GAAFET (RibbonFET), де затвор повністю оточує нанолистки кремнію на всі 360 градусів для абсолютного контролю.</p>
+            </div>
+            <div class="chapter">
+                <h3>4. Backside Power Delivery (PowerVia)</h3>
+                <p>Традиційно живлення та сигнальні лінії знаходилися на одній стороні чипа, що призводило до "заточення" і перешкод. Нова технологія BSPDN (Backside Power Delivery Network) розділяє їх: живлення підводиться зі зворотного боку кристала напряму до транзисторів, знижуючи втрати напруги та покращуючи енергоефективність.</p>
+            </div>
+            <div class="chapter">
+                <h3>5. Ієрархія кешу (L1-L3 & SRAM)</h3>
+                <p>Оперативна пам'ять занадто повільна для сучасних CPU. Тому процесори мають власну пам'ять SRAM. L1 кеш працює на частоті ядра без затримок. L2 трохи більший. L3 (до сотень мегабайт) — спільний пул для всіх ядер. AMD впровадила 3D V-Cache, напаюючи додатковий кеш фізично поверх обчислювальних ядер.</p>
+            </div>
+            <div class="chapter">
+                <h3>6. Компонування: Чиплети (Chiplets)</h3>
+                <p>Робити великі монолітні чіпи економічно невигідно через дефекти на виробництві (падає Yield rate). Тепер процесори складаються з Чиплетів: ядра обчислень роблять на найсучаснішому техпроцесі (3нм), а контролери пам'яті та PCIe — на дешевшому (6нм). Потім їх об'єднують надшвидкою шиною (напр. Infinity Fabric).</p>
+            </div>
+            <div class="chapter">
+                <h3>7. 2.5D та 3D Packaging (CoWoS)</h3>
+                <p>Для ШІ-прискорювачів (як Nvidia H100) потрібне тісне поєднання чипа та HBM-пам'яті. Використовується технологія CoWoS (Chip-on-Wafer-on-Substrate). Чіпи розміщуються на кремнієвому інтерпозері (2.5D) з мільйонами мікроскопічних з'єднань, або ж накладаються безпосередньо один на одного (3D) з використанням TSV (наскрізних кремнієвих отворів).</p>
+            </div>
+            <div class="chapter">
+                <h3>8. HBM (High Bandwidth Memory)</h3>
+                <p>Для гігантських пропускних здатностей (терабайти за секунду), що потрібні для ШІ та відеокарт, використовують HBM. Це стеки з кількох шарів чипів DRAM пам'яті, складених у вежу. Вони працюють на менших частотах, ніж GDDR, але мають шину даних у тисячі біт (замість стандартних 256/384).</p>
+            </div>
+            <div class="chapter">
+                <h3>9. Кремнієва фотоніка</h3>
+                <p>Електричні сигнали по мідним провідникам досягли своєї межі швидкості та енергоефективності. Майбутнє за Фотонікою: використання світла (фотонів) для передачі даних безпосередньо між чипами або навіть всередині самого процесора. Це знижує затримки майже до нуля і повністю усуває проблему нагрівання ліній зв'язку.</p>
+            </div>
+            <div class="chapter">
+                <h3>10. Квантові обчислення (Qubits)</h3>
+                <p>Квантові процесори працюють на кубітах, які завдяки властивості суперпозиції можуть бути одночасно в стані 0 і 1. Це дозволяє не перебирати варіанти по черзі, а вирішувати задачі паралельно. Головна проблема — декогеренція: кубіти надзвичайно чутливі до шуму, тому їх необхідно охолоджувати до температур, близьких до абсолютного нуля.</p>
+            </div>
+        </section>
+
+        <section id="pc-content" class="content-section">
+            <div class="article-header">
+                <span class="reading-time">Час читання: 115 хвилин</span>
+                <h2>Інженерія ПК: Архітектура, Живлення та Охолодження</h2>
+            </div>
+            
+            <img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?q=80&w=1400" class="hero-img" alt="PC Build">
+
+            <div class="chapter">
+                <h3>1. Термодинаміка корпусу (Airflow)</h3>
+                <p>Ефективне охолодження — це питання балансу тиску. Позитивний тиск (більше повітря на вдув через пилові фільтри) змушує гаряче повітря виходити через всі щілини, запобігаючи потраплянню пилу. Також важлива геометрія крильчатки вентилятора: для радіаторів потрібен високий статичний тиск, а для корпуса — максимальний CFM (об'єм повітря).</p>
+            </div>
+            <div class="chapter">
+                <h3>2. Custom Loops (СРО) та Гальваніка</h3>
+                <p>Кастомні контури рідинного охолодження використовують водоблоки, помпи (D5/DDC) та масивні радіатори. Головне правило: ніколи не змішувати мідь та алюміній в одному контурі. Через різницю електрохімічних потенціалів виникає гальванічна корозія, яка швидко руйнує метали, забиваючи канали "іржею".</p>
+            </div>
+            <div class="chapter">
+                <h3>3. Фази живлення материнської плати (VRM)</h3>
+                <p>Материнська плата знижує напругу з 12V (від блоку живлення) до ~1.3V (для процесора) за допомогою модуля VRM (Voltage Regulator Module). Він складається з мосфетів (DrMOS), дроселів (Chokes) та конденсаторів. Чим більше реальних фаз (або даблерів), тим менше нагрівається кожен елемент і тим стабільніше живлення під час оверклокінгу.</p>
+            </div>
+            <div class="chapter">
+                <h3>4. Топологія пам'яті: Daisy Chain vs T-Topology</h3>
+                <p>Фізичне розведення доріжок оперативної пам'яті впливає на розгін. У сучасних платах домінує Daisy Chain: сигнал йде спочатку до ближнього слоту, потім до дальнього. Тому 2 модулі (у слотах А2 та В2) розганяються ідеально, а 4 модулі сильно навантажують контролер пам'яті (IMC), змушуючи знижувати частоти.</p>
+            </div>
+            <div class="chapter">
+                <h3>5. Таймінги RAM та Оверклокінг</h3>
+                <p>Швидкість пам'яті (напр., DDR5-6000) — це лише половина справи. Важливі затримки. Первинні таймінги (CAS Latency) показують затримку доступу до стовпця даних. Справжній буст продуктивності в іграх дає ручне налаштування вторинних (tRFC, tFAW, tREFI) таймінгів, що значно покращує показник 1% Low FPS і прибирає "фрізи".</p>
+            </div>
+            <div class="chapter">
+                <h3>6. Архітектура PCIe та Лінії</h3>
+                <p>PCI Express (PCIe) — магістраль системи. Відеокарти зазвичай використовують 16 ліній безпосередньо до процесора. Кожне нове покоління (PCIe 4.0, 5.0) подвоює пропускну здатність. PCIe 6.0 перейшов з NRZ на модуляцію PAM-4, де один такт передає 4 рівні напруги (замість 2), передаючи 2 біти за раз.</p>
+            </div>
+            <div class="chapter">
+                <h3>7. DirectStorage та NVMe SSD</h3>
+                <p>Раніше текстури для ігор з SSD йшли в RAM, де процесор їх розпаковував, і лише потім у VRAM відеокарти. DirectStorage дозволяє GPU забирати стиснені дані прямо з NVMe накопичувача, минаючи CPU. Відеокарта розпаковує графіку паралельно тисячами ядер, зменшуючи час завантаження рівнів до мілісекунд.</p>
+            </div>
+            <div class="chapter">
+                <h3>8. Стандарти БЖ: ATX 3.1 та 80 PLUS</h3>
+                <p>Сучасні відеокарти можуть мати мікро-спайки живлення (Power Spikes), що перевищують їх номінал вдвічі. Стандарт ATX 3.1 з конектором 12V-2x6 створений спеціально, щоб безпечно передавати до 600 Ватт по одному кабелю, гарантуючи, що БЖ не відключиться під час пікових навантажень. Сертифікат 80 PLUS Titanium вказує на ККД понад 94%.</p>
+            </div>
+            <div class="chapter">
+                <h3>9. Термоінтерфейси: Паста vs Рідкий Метал</h3>
+                <p>Між кристалом процесора і радіатором завжди є мікроскопічні нерівності, де затримується повітря (поганий провідник тепла). Термопаста заповнює ці порожнини. Для екстремального охолодження використовують Рідкий Метал (сплав галію, індію та олова) — він має у 10 разів вищу теплопровідність, але є струмопровідним і руйнує алюміній.</p>
+            </div>
+            <div class="chapter">
+                <h3>10. Технології Моніторів: OLED та QD-OLED</h3>
+                <p>Класичні IPS/VA матриці використовують загальну підсвітку панелі (що робить чорний колір сірим). В OLED кожний субпіксель світиться самостійно, забезпечуючи нескінченний контраст (true black) та затримку відгуку в 0.03 мс. QD-OLED використовує сині органічні діоди з шаром квантових точок (Quantum Dots), що значно збільшує яскравість і колірне охоплення.</p>
+            </div>
+        </section>
+
+        <section id="dev-content" class="content-section">
+            <div class="article-header">
+                <span class="reading-time">Час читання: 125 хвилин</span>
+                <h2>Розробка ПЗ: Від Python до складних Backend систем</h2>
+            </div>
+            
+            <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1400" class="hero-img" alt="Programming">
+
+            <div class="chapter">
+                <h3>1. Асинхронність (async/await)</h3>
+                <p>Синхронний код блокує потік: під час запиту до БД програма "зависає", очікуючи на відповідь. В Python asyncio запровадив Event Loop. Асинхронна функція `await` не блокує процес; вона віддає управління іншим завданням (корутинам). Це дозволяє одному процесору (Single-Thread) обробляти сотні тисяч з'єднань одночасно (напр. FastAPI/aiogram).</p>
+            </div>
+            <div class="chapter">
+                <h3>2. Мікросервісна архітектура</h3>
+                <p>Замість Моноліту бекенд розбивається на незалежні сервіси (Авторизація, Кошик, Пошук), які спілкуються через API. Якщо "впаде" сервіс коментарів, сайт все одно буде працювати. Це дозволяє легко масштабувати окремі вузли (якщо йде розпродаж, додаються лише сервери обробки платежів) і писати різні сервіси на різних мовах (Python, Go, Rust).</p>
+            </div>
+            <div class="chapter">
+                <h3>3. Docker: Контейнеризація коду</h3>
+                <p>Docker вирішує проблему "на моєму комп'ютері працює". Він упаковує ваш код, версію інтерпретатора, системні бібліотеки Linux в єдиний стандартизований Контейнер (Image). Контейнер ізольований, споживає мінімум ресурсів і гарантовано працює однаково як на ноутбуці, так і на кластері AWS.</p>
+            </div>
+            <div class="chapter">
+                <h3>4. Kubernetes (K8s)</h3>
+                <p>Коли у вас сотні контейнерів, ними треба управляти. Kubernetes — це оркестратор контейнерів. Він автоматично піднімає нові копії сервісу при збільшенні трафіку (Auto-scaling), балансує навантаження, і якщо контейнер зависає з помилкою (Out of Memory), K8s миттєво його "вбиває" і запускає свіжий (Auto-healing) без простою сервісу.</p>
+            </div>
+            <div class="chapter">
+                <h3>5. Брокери повідомлень: RabbitMQ / Kafka</h3>
+                <p>Щоб мікросервіси не "задушили" один одного синхронними HTTP запитами, використовують асинхронні черги. Якщо користувач реєструється, головний сервер кидає подію "UserCreated" у брокер Apache Kafka і працює далі. А сервіси відправки Email, SMS та статистики забирають цю подію з брокера у власному темпі, гарантуючи, що жоден запит не загубиться.</p>
+            </div>
+            <div class="chapter">
+                <h3>6. API: REST vs GraphQL vs gRPC</h3>
+                <p>REST API використовує стандартні HTTP-методи і повертає фіксований JSON. GraphQL дозволяє клієнту (фронтенду) попросити рівно те, що йому потрібно ("дай мені ім'я користувача, але не давай його історію покупок"), економлячи трафік. gRPC (від Google) працює поверх HTTP/2, упаковує дані в бінарний формат (Protobuf) і у 10 разів швидший за REST.</p>
+            </div>
+            <div class="chapter">
+                <h3>7. Бази даних: SQL vs NoSQL</h3>
+                <p>PostgreSQL (SQL) використовується, коли важлива абсолютна надійність транзакцій і строгі зв'язки (фінанси). MongoDB (NoSQL) — гнучка база, що зберігає документи в JSON-подібному BSON форматі; ідеальна для каталогів товарів без жорсткої схеми. Redis — база In-Memory (працює в ОЗУ), забезпечує мікросекундний доступ; використовується для кешування.</p>
+            </div>
+            <div class="chapter">
+                <h3>8. CI/CD: Безперервна інтеграція</h3>
+                <p>CI/CD (Continuous Integration / Deployment) автоматизує рутину. Щойно розробник відправляє код у GitHub (Push), сервери (напр. GitLab CI або GitHub Actions) автоматично запускають сотні Unit-тестів. Якщо все ок, код компілюється в Docker-образ, завантажується в реєстр, а потім Kubernetes сам, без участі DevOps-інженера, оновлює сайт.</p>
+            </div>
+            <div class="chapter">
+                <h3>9. Кібербезпека: Захист Backend-у</h3>
+                <p>Програміст зобов'язаний захищати API. Від SQL Injection рятують ORM (як SQLAlchemy) та підготовлені запити. Паролі ніколи не зберігають у чистому вигляді (Plaintext), їх хешують за алгоритмом Argon2id або bcrypt із додаванням унікальної "солі". Для авторизації без зберігання сесії на сервері використовують підписані токени JWT (JSON Web Tokens).</p>
+            </div>
+            <div class="chapter">
+                <h3>10. Serverless & WebAssembly (Wasm)</h3>
+                <p>Майбутнє розробки — Serverless. Замість оренди цілого сервера ви розгортаєте лише одну функцію (AWS Lambda). Ви платите лише за мілісекунди, коли ця функція виконується при запиті. А WebAssembly (Wasm) дозволяє компілювати код на C++, Rust чи Go і запускати його прямо в браузері клієнта з нативною швидкістю, оминаючи повільний JavaScript.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 ТехноСфера • Твій путівник у світ високих технологій</p>
+    </footer>
+
+    <script>
+        // ЛОГІКА SPA ПЕРЕМИКАННЯ
+        function showContent(id) {
+            const menu = document.getElementById('main-menu');
+            const backBtn = document.getElementById('btn-back');
+            
+            // Сховати меню
+            menu.style.display = 'none';
+            
+            // Сховати всі секції
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+
+            // Показати потрібну секцію
+            const target = document.getElementById(id);
+            target.style.display = 'block';
+            setTimeout(() => target.classList.add('active'), 50);
+
+            // Показати кнопку назад
+            backBtn.style.display = 'flex';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function hideContent() {
+            const menu = document.getElementById('main-menu');
+            const backBtn = document.getElementById('btn-back');
+            
+            document.querySelectorAll('.content-section').forEach(s => {
+                s.classList.remove('active');
+                setTimeout(() => s.style.display = 'none', 500);
+            });
+
+            setTimeout(() => {
+                menu.style.display = 'flex';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 500);
+
+            backBtn.style.display = 'none';
+        }
+
+        // ДИНАМІЧНА КНОПКА ПРИ СКРОЛІ
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('btn-back');
+            if(window.scrollY > 150) {
+                btn.style.background = 'var(--primary)';
+                btn.style.borderColor = 'var(--primary)';
+            } else {
+                btn.style.background = 'var(--glass)';
+                btn.style.borderColor = 'var(--border)';
+            }
+        });
+    </script>
+</body>
+</html>
